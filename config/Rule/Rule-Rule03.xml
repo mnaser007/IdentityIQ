@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Rule language="beanshell" name="Rule03" type="FieldValue">
+  <Source><![CDATA[
+  
+import sailpoint.object.Application;
+import sailpoint.object.Identity;
+import sailpoint.tools.GeneralException;
+import sailpoint.api.SailPointContext;
+import sailpoint.api.certification.ManagerCertificationHelper;
+  
+
+//.............Getting an list of applcations and it's connector type...................
+		 
+			 List<Application> appName=context.getObjects(Application.class);
+			if(appName!=null  && appName.size()>0) {
+			
+			 for (Application Apps:appName) {
+	   			
+			   return("Application name----->"+Apps.getName()+"\n"+"Connector Type"+Apps.getType());
+			   
+				} 
+				}
+				}
+ 
+    
+  ]]></Source>                      
+</Rule>

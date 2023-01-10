@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Rule language="beanshell" name="Rule01" type="FieldValue">
+  <Source><![CDATA[
+  
+
+import sailpoint.object.Identity;
+import sailpoint.tools.GeneralException;
+import sailpoint.api.SailPointContext;
+  
+  
+Identity identityName = context.getObjectByName(Identity.class, "Aaron.Nichols");
+		if(identityName != null) {
+		System.out.println("firstName: "+identityName.getFirstname()+"\n"+"LastName: "+identityName.getLastname());
+		
+		 return ("Firstname: " + identityName.getFirstname()+"\n" +"LastName: "+identityName.getLastname());
+	
+    }
+    }
+    
+  ]]></Source>
+</Rule>
