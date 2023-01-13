@@ -10,6 +10,7 @@ import sailpoint.api.SailPointContext;
 import sailpoint.api.certification.ManagerCertificationHelper;
   
  //.....................Getting list of Identities and it's size............. 
+ 
    List<Identity> identities = context.getObjects(Identity.class);
 	 if (identities != null && identities.size() > 0) {
 	     for (Identity identity : identities) {
