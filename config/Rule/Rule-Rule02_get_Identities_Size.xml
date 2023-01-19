@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
-<Rule language="beanshell" name="Rule02" type="FieldValue">
+<Rule language="beanshell" name="Rule02_get_Identities_Size" type="FieldValue">
   <Source><![CDATA[
   
 import sailpoint.object.Application;

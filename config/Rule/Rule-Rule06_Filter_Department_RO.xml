@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Rule language="beanshell" name="Rule06_Filter_Department_RO" type="FieldValue">
+  <Source><![CDATA[
+  
+import sailpoint.tools.GeneralException;
+import sailpoint.object.Identity;
+import sailpoint.object.QueryOptions;
+import java.util.ArrayList;
+import java.util.List;
+import sailpoint.api.SailPointContext;
+import sailpoint.object.Application;
+import sailpoint.object.Filter;
+
+
+ //......Getting all identities where department is Regional Operations..........................
+   		  
+   		  
+			
+           Filter regionaloperation= Filter.eq("department", "Regional Operations");
+		  QueryOptions qo= new QueryOptions();
+		  qo.addFilter(regionaloperation);
+	
+		
+		  List<Identity> identities= context.getObjects(Identity.class, qo);
+		  if (identities!=null && identities.size()>0)
+		  {
+			  for (Identity identity:identities)
+		 {
+			System.out.println("Regional Operations Identities are:--> "+identity.getName());
+		 }
+		 
+           
+    
+  ]]></Source>
+</Rule>

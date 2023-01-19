@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
-<Rule language="beanshell" name="Rule05-Filter" type="FieldValue">
+<Rule language="beanshell" name="Rule05_Filter_Department_IT" type="FieldValue">
   <Source><![CDATA[
   
 import sailpoint.tools.GeneralException;
@@ -13,7 +13,7 @@ import sailpoint.object.Application;
 import sailpoint.object.Filter;
 
 
- //..............Getting user data using Filter option with department..........................
+ //..............Getting all identities using Filter option where department is IT ..........................
    		  
    		  ArrayList identityNames= new ArrayList();
          Filter DptFilter =  Filter.eq("department" , "Information Technology");

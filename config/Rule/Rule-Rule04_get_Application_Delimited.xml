@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
-<Rule language="beanshell" name="Rule04" type="FieldValue">
+<Rule language="beanshell" name="Rule04_get_Application_Delimited" type="FieldValue">
   <Source><![CDATA[
   
  import java.util.List;

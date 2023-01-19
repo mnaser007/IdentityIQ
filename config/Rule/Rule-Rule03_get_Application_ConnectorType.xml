@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
-<Rule language="beanshell" name="Rule03" type="FieldValue">
+<Rule language="beanshell" name="Rule03_get_Application_ConnectorType" type="FieldValue">
   <Source><![CDATA[
   
 import sailpoint.object.Application;
