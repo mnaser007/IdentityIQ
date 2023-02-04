@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Rule language="beanshell" name="Rule_HashMap" type="FieldValue">
+  <Source><![CDATA[
+  
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+import java.util.ArrayList;
+import sailpoint.api.SailPointContext;
+import sailpoint.object.Attributes;
+import sailpoint.object.Identity;
+import sailpoint.tools.GeneralException;
+  
+  				ArrayList list=new ArrayList();
+	  Identity  identity = context.getObject(Identity.class, "Aaron.Nichols");
+
+
+		       Attributes attributes = identity.getAttributes();
+
+		       for (Map.Entry set : attributes.entrySet()) {
+		           System.out.println(set.getKey() + " = "+set.getValue());
+
+							list.add(identity.getAttributes());
+		        System.out.println(identity.getAttributes());
+             return list;
+		    }
+	}
+    
+    
+  ]]></Source>
+</Rule>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Rule language="beanshell" name="Rule34_Filter_getAllIdentities_Costcentre_L07e" type="FieldValue">
+  <Source><![CDATA[
+  
+import java.util.List;
+import sailpoint.api.SailPointContext;
+import sailpoint.object.Filter;
+import sailpoint.object.Identity;
+import sailpoint.object.QueryOptions;
+import sailpoint.tools.Util;
+
+
+ //...;......... Get all Identities where cost center is L07e  ..........................
+		
+		
+      QueryOptions qo = new QueryOptions();
+     qo.addFilter(Filter.eq("costcenter", "L07e"));
+
+      List<Identity> identities = context.getObjects(Identity.class, qo);
+ 
+      if (!Util.isEmpty(identities)) {
+      for (Identity identity : identities) {
+    System.out.println("The cost center of identity is:--->" + identity.getName());
+  }
+}
+	}
+  
+		
+
+		
+	
+		  
+    
+  ]]></Source>
+</Rule>

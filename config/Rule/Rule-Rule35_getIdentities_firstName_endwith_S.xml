@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Rule language="beanshell" name="Rule35_getIdentities_firstName_endwith_S" type="FieldValue">
+  <Source><![CDATA[
+  
+import sailpoint.object.Filter;
+import sailpoint.object.QueryOptions;
+import sailpoint.object.Identity;
+import java.util.List;
+import sailpoint.tools.Util;
+
+
+//.............List out the employee firstname ends with 'S'-............
+
+		Filter firtName=Filter.like("firstname", "S",Filter.MatchMode.END);
+		QueryOptions qo = new QueryOptions();
+		qo.addFilter(firtName);
+		List<Identity> identities = context.getObjects(Identity.class, qo);
+
+		if (!Util.isEmpty(identities)) {
+		  for (Identity identity : identities) {
+		    System.out.println("Employee first name: " + identity.getDisplayName());
+		  }
+		}
+	}
+ 
+    
+  ]]></Source>
+</Rule>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Rule language="beanshell" name="Rule31_get_Application_allnames" type="FieldValue">
+  <Source><![CDATA[
+  
+import sailpoint.tools.GeneralException;
+import sailpoint.object.Identity;
+import sailpoint.object.QueryOptions;
+import java.util.ArrayList;
+import java.util.List;
+import sailpoint.api.SailPointContext;
+import sailpoint.object.Application;
+import sailpoint.object.Filter;
+
+
+ //............Getting  Aaron.Nichols  ..........................
+   		  
+
+		    ArrayList list =new ArrayList();
+		List<Application> appName = context.getObjects(Application.class);
+		if (appName != null && appName.size()>0) {
+
+			for (Application Apps : appName) {
+    list.add("Application name----->"+Apps.getName());
+	System.out.println("Application name----->" + Apps.getName());
+	
+     
+	}
+    }
+     
+      System.out.println("Total Applications are:------>" + appName.size());
+	
+  return list;
+  }
+  			         
+    
+  ]]></Source>
+</Rule>

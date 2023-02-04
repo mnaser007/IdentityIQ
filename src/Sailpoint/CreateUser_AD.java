@@ -14,15 +14,16 @@ public class CreateUser_AD {
 
 		
 			//Creating a new user in AD and adding this  code below the dstinguishedName
-		// CN=Devi,CN=Users,DC=future,DC=com
+		// CN=Devi,CN=Users,DC=future,DC=com   // creating user in AD
 		
-		Identity idetntity;
+		Identity identity=null;
 		
 		String part1="CN=";
 		String part2=",CN=Users,DC=future,DC=com";
 		
-		String Createname=part1+"Devi"+part2;
-		System.out.println(Createname);	
+		String Createname=part1+identity.getName()+part2;  
+		System.out.println("distinguishedname:------>"+Createname);	
+	
 		//return Createname;
 	}
 	}
