@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Workflow PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Workflow explicitTransitions="true" name="IdentityCreationWorkflow" taskType="LCM" type="LCMProvisioning">
+  <Variable initializer="true" name="trace"/>
+  <Variable input="true" name="currentUserName"/>
+  <Step icon="Start" name="Start" posX="20" posY="20">
+    <Transition to="DisplayIdentityForm"/>
+  </Step>
+  <Step icon="Default" name="DisplayIdentityForm" posX="324" posY="9">
+    <Approval name="Identity Form" owner="ref:currentUserName" return="firstName,lastName,displayName,Manager" send="">
+      <Form name="Identity Form">
+        <Attributes>
+          <Map>
+            <entry key="hideIncompleteFields">
+              <value>
+                <Boolean/>
+              </value>
+            </entry>
+            <entry key="includeHiddenFields">
+              <value>
+                <Boolean/>
+              </value>
+            </entry>
+            <entry key="pageTitle" value="Identity Form"/>
+          </Map>
+        </Attributes>
+        <Section name="Section 1">
+          <Field displayName="First Name" name="firstName" type="string"/>
+          <Field displayName="Last Name" name="lastName" type="string"/>
+          <Field displayName="Display Name" name="displayName" type="string"/>
+          <Field displayName="Select Manager" name="Manager" type="sailpoint.object.Identity"/>
+        </Section>
+        <Button action="cancel" label="Cancel"/>
+        <Button action="next" label="Submit"/>
+      </Form>
+    </Approval>
+    <Transition to="Processing Step"/>
+  </Step>
+  <Step icon="Stop" name="Stop" posX="837" posY="36"/>
+  <Step icon="Default" name="SaveObject" posX="644" posY="190">
+    <Script>
+      <Source><![CDATA[
+  
+     System.out.println("********SaveObject Step*********firstName------->"+firstName);
+     System.out.println("********SaveObject Step*********lastName------->"+lastName);
+     System.out.println("********SaveObject Step*********displayName------->"+displayName);
+     System.out.println("********SaveObject Step*********Manager------->"+Manager);
+     
+]]></Source>
+    </Script>
+    <Transition to="Stop"/>
+  </Step>
+  <Step icon="Default" name="Processing Step" posX="448" posY="193">
+    <Script>
+      <Source><![CDATA[
+  
+  import sailpoint.object.Identity;
+  
+     System.out.println("********Processing Step*********firstName------->"+firstName);
+     System.out.println("********Processing Step*********lastName------->"+lastName);
+     System.out.println("********Processing Step*********displayName------->"+displayName);
+     System.out.println("********Processing Step*********Manager------->"+Manager);  
+     
+     Identity identity=new Identity();
+		
+		identity.setName(firstName+"."+lastName);
+		identity.setFirstname(firstName);
+		identity.setLastname(lastName);
+		identity.setDisplayName(displayName);
+		
+		if(Manager.getName()!=null)
+		identity.setManager(Manager);
+		
+		context.saveObject(identity); 
+		context.commitTransaction(); 
+     
+]]></Source>
+    </Script>
+    <Transition to="SaveObject"/>
+  </Step>
+</Workflow>

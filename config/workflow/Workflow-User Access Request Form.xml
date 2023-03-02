@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Workflow PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Workflow explicitTransitions="true" name="User Access Request Form">
+  <Variable initializer="true" name="trace"/>
+  <Variable name="identityName"/>
+  <Variable name="plan"/>
+  <Variable name="accessName"/>
+  <Variable name="appName"/>
+  <Variable initializer="User Access Request Form" name="flow"/>
+  <Step icon="Start" name="Start" posX="20" posY="20">
+    <Transition to="DisplayFrom"/>
+  </Step>
+  <Step icon="Default" name="DisplayFrom" posX="177" posY="19">
+    <Approval name="User Access Request Form" owner="spadmin" return="identityName,appName,accessName" send="">
+      <Form name="User Access Request Form">
+        <Attributes>
+          <Map>
+            <entry key="hideIncompleteFields">
+              <value>
+                <Boolean/>
+              </value>
+            </entry>
+            <entry key="includeHiddenFields">
+              <value>
+                <Boolean/>
+              </value>
+            </entry>
+            <entry key="pageTitle" value="UserRequestFrom"/>
+          </Map>
+        </Attributes>
+        <Section name="Section 1">
+          <Field displayName="EmployeeName" name="identityName" type="sailpoint.object.Identity"/>
+          <Field displayName="Select Application" name="Application" type="Application"/>
+          <Field displayName="Select Entitlement" name="Entitlement" type="ManagedAttribute"/>
+        </Section>
+        <Button action="cancel" label="Cancel"/>
+        <Button action="next" label="Submit"/>
+      </Form>
+    </Approval>
+    <Transition to="ProvisionPlan"/>
+  </Step>
+  <Step icon="Stop" name="Stop" posX="599" posY="22"/>
+  <Step icon="Default" name="ProvisionPlan" posX="328" posY="12" resultVariable="plan">
+    <Script>
+      <Source><![CDATA[
+
+
+import sailpoint.object.Application;
+ import sailpoint.object.Identity;
+import sailpoint.api.Provisioner;
+import sailpoint.api.SailPointContext;
+import sailpoint.object.Application;
+import sailpoint.object.Identity;
+import sailpoint.object.ProvisioningPlan;
+import sailpoint.object.ProvisioningPlan.AccountRequest;
+import  sailpoint.object.ProvisioningPlan.AttributeRequest;
+
+
+	
+		// Print identity name, application name, and access type
+		System.out.println("identityName: " + identityName + ", AppName: " + Application + ", AccessType: " + Entitlement);
+
+		// Get the identity object based on the identity name
+		Identity identityName1 = context.getObject(Identity.class, identityName);
+
+		// Create a ProvisioningPlan object to store the provisioning plan
+		ProvisioningPlan plan = new ProvisioningPlan();
+
+		// Create a list of AccountRequest objects
+		ArrayList<AccountRequest> accountRequestList = new ArrayList<>();
+
+		// Set the identity in the ProvisioningPlan object
+		plan.setIdentity(identityName1);
+
+		// Create an AccountRequest object
+		AccountRequest adAccountRequest = new AccountRequest();
+
+		// Get the Application object based on the application name
+		Application appName1 = context.getObject(Application.class, appName);
+
+		// Set the application name in the AccountRequest object
+		adAccountRequest.setApplication(appName1.getName());
+
+		// Set the operation as "Create" in the AccountRequest object
+		adAccountRequest.setOperation(AccountRequest.Operation.Create);
+
+		// Create AttributeRequest objects to set the attributes for the account
+		AttributeRequest fnAttRequest = new AttributeRequest("givenName", identityName1.getFirstname());
+		AttributeRequest mailAttRequest = new AttributeRequest("mail", identityName1.getEmail());
+		AttributeRequest employeeIDAttRequest = new AttributeRequest("employeeID", identityName1.getStringAttribute("employeeId"));
+		AttributeRequest memberOfAttRequest = new AttributeRequest("memberOf", accessName);
+
+		// Add the AttributeRequest objects to the AccountRequest object
+		adAccountRequest.add(fnAttRequest);
+		adAccountRequest.add(mailAttRequest);
+		adAccountRequest.add(employeeIDAttRequest);
+		adAccountRequest.add(memberOfAttRequest);
+
+		// Set the native identity in the AccountRequest object
+		String finalName = "CN=" + identityName1.getName() + ",CN=Users,DC=FUTURE,DC=COM";
+		System.out.println("Final name: " + finalName);
+		adAccountRequest.setNativeIdentity(finalName);
+
+		// Add the AccountRequest object to the list of AccountRequest objects
+		accountRequestList.add(adAccountRequest);
+
+		// Set the list of AccountRequest objects in the ProvisioningPlan object
+		plan.setAccountRequests(accountRequestList);
+
+		// Print the ProvisioningPlan in XML format
+		System.out.println("Plan: " + plan.toXml());
+
+		// The following lines are commented out and are used to execute the ProvisioningPlan
+		
+		Provisioner p=new Provisioner(context);
+		
+		p.compile(plan);
+		p.execute(); 
+ 
+	return plan;	
+}
+]]></Source>
+    </Script>
+    <Transition to="Access Request Provisioning"/>
+  </Step>
+  <Step icon="Default" name="Access Request Provisioning" posX="457" posY="9">
+    <Arg name="identityEmailTemplate"/>
+    <Arg name="enableRetryRequest"/>
+    <Arg name="securityOfficerElectronicSignature"/>
+    <Arg name="fallbackApprover"/>
+    <Arg name="endOnManualWorkItems"/>
+    <Arg name="userEmailTemplate"/>
+    <Arg name="policiesToCheck"/>
+    <Arg name="project"/>
+    <Arg name="workItemComments"/>
+    <Arg name="identityRequestId"/>
+    <Arg name="approvalSplitPoint"/>
+    <Arg name="source"/>
+    <Arg name="identityDisplayName">
+      <Script>
+        <Source><![CDATA[import sailpoint.object.Identity;
+import sailpoint.tools.Util;
+System.out.println("*******DisplayName*********");
+Identity identityObj=null;
+ig (!Util.isNullOREmpty(identityName))
+Identity identityObj=context.getObject(Identity.class, identityName);
+return identityObj.getDisplayName();]]></Source>
+      </Script>
+    </Arg>
+    <Arg name="foregroundProvisioning"/>
+    <Arg name="ownerElectronicSignature"/>
+    <Arg name="batchRequestItemId"/>
+    <Arg name="saveUnmanagedPlan_WithProjectArgument"/>
+    <Arg name="splitPlans"/>
+    <Arg name="doRefresh"/>
+    <Arg name="plan" value="ref:plan"/>
+    <Arg name="flow" value="ref:flow"/>
+    <Arg name="identityElectronicSignature"/>
+    <Arg name="identityName" value="ref:identityName"/>
+    <Arg name="approvalSet"/>
+    <Arg name="violationReviewDecision"/>
+    <Arg name="filterRejects"/>
+    <Arg name="splitProjects"/>
+    <Arg name="requireCommentsForDenial"/>
+    <Arg name="requesterEmailTemplate"/>
+    <Arg name="approvalEmailTemplate"/>
+    <Arg name="ticketManagementApplication"/>
+    <Arg name="securityOfficerName"/>
+    <Arg name="approvingIdentities"/>
+    <Arg name="managerEmailTemplate"/>
+    <Arg name="ticketId"/>
+    <Arg name="approvalScheme" value="manager"/>
+    <Arg name="allowRequestsWithViolations"/>
+    <Arg name="workItemPriority"/>
+    <Arg name="managerElectronicSignature"/>
+    <Arg name="requireViolationReviewComments"/>
+    <Arg name="splitApprovalSet"/>
+    <Arg name="approvalMode" value="serial"/>
+    <Arg name="trace" value="ref:trace"/>
+    <Arg name="endOnProvisioningForms"/>
+    <Arg name="splitWorkItemComments"/>
+    <Arg name="requireCommentsForApproval"/>
+    <Arg name="notificationScheme"/>
+    <Arg name="policyViolations"/>
+    <Arg name="policyScheme"/>
+    <Arg name="setPreviousApprovalDecisions"/>
+    <Arg name="optimisticProvisioning" value="true"/>
+    <Arg name="securityOfficerEmailTemplate"/>
+    <WorkflowRef>
+      <Reference class="sailpoint.object.Workflow" name="User Access Request Form"/>
+    </WorkflowRef>
+    <Transition to="Stop"/>
+  </Step>
+</Workflow>

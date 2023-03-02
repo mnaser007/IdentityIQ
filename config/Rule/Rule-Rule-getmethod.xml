@@ -40,9 +40,6 @@ import sailpoint.api.SailPointContext;
 					+ identityName.getAttribute("inactiveIdentity") + "\n" + "LastLogin: "
 					+ identityName.getLastLogin()+"\n"+"ManagerEmail:"+identityName.getManager().getEmail());
       
-      
-  
-
     }
     
   ]]></Source>

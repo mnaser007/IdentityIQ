@@ -14,9 +14,9 @@ import sailpoint.tools.Util;
 
 //.................List out all active employee firstName Start with 'Ann' or 'Pa'...........
 	
-			Filter first = Filter.like("firstname", "Ann", Filter.MatchMode.START).and(Filter.like("lastname", "Pa", Filter.MatchMode.START));
-		Filter active=Filter.eq("active", true);
-		//Filter second = Filter.like("lastname", "Pa", Filter.MatchMode.START);
+Filter first = Filter.like("firstname", "Ann", Filter.MatchMode.START).or(Filter.like("lastname", "Pa", Filter.MatchMode.START));
+Filter active=Filter.eq("inactive", true);
+	
 		
 
 		Filter finalFilter = Filter.and(first, active);
